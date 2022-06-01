@@ -7,13 +7,12 @@ import { tap } from 'rxjs/operators';
 const TOKEN_KEY = 'authToken';
 const USER_KEY = 'authUser';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TokenService {
-  private _isLoggedIn$=new BehaviorSubject<boolean>(false);
-  constructor(private http: HttpClient,
-    private authService:AuthService) {}
-  isLoggedIn$=this._isLoggedIn$.asObservable();
+  private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
+  constructor(private http: HttpClient, private authService: AuthService) {}
+  isLoggedIn$ = this._isLoggedIn$.asObservable();
   user: User | null;
   signOut() {
     window.sessionStorage.clear();
@@ -23,8 +22,8 @@ export class TokenService {
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, token);
   }
-  login(email: string, password: string) {
-    return this.authService.login(email, password).pipe(
+  login(credentials) {
+    return this.authService.login(credentials).pipe(
       tap((response: any) => {
         this._isLoggedIn$.next(true);
         localStorage.setItem(TOKEN_KEY, response.token);
@@ -36,9 +35,9 @@ export class TokenService {
   public getToken(): string {
     return sessionStorage.getItem(TOKEN_KEY);
   }
-  private getUser(token):User |null{
+  private getUser(token): User | null {
     if (!token) {
-      return null
+      return null;
     }
     return JSON.parse(atob(token.split('.')[1])) as User;
   }

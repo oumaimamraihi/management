@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { GlobalConstants } from '../global-constants';
-import { User } from '../models/user';
-const authUrl = GlobalConstants.apiUrl;
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+const authUrl = environment.apiUrl;
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
@@ -11,20 +11,19 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class AuthService {
-
+  private baseUrl: string = environment.apiUrl + '/api/login';
   ok: boolean;
   constructor(private http: HttpClient) {}
 
-  login(email:string, password:string): Observable<any> {
+  login(credentials): Observable<any> {
     this.ok = true;
     return this.http.post(
-      authUrl + 'login',
+      this.baseUrl,
       {
-        email: email,
-        password: password,
+        email: credentials.email,
+        password: credentials.password,
       },
       httpOptions
     );
   }
-
 }
