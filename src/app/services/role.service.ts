@@ -37,6 +37,6 @@ export class RoleService {
   }
 
   addRoleToUser(emailAndRole: any) {
-    return this.http.post<Apiresponse>(this.baseUrl, emailAndRole);
+    return this.http.post<Apiresponse>(this.baseUrl+'/roletouser', emailAndRole);
   }
 }

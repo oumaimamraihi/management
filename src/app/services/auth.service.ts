@@ -18,12 +18,6 @@ export class AuthService {
   login(credentials): Observable<any> {
     this.ok = true;
     return this.http.post(
-      this.baseUrl,
-      {
-        email: credentials.email,
-        password: credentials.password,
-      },
-      httpOptions
-    );
+      this.baseUrl+'?email='+credentials.email+'&password='+credentials.password,null)
   }
 }

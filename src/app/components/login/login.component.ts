@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private AuthService: AuthService
+    private AuthService: AuthService,
+    private tokenService:TokenService
   ) {}
 
   ngOnInit() {}
@@ -33,6 +35,9 @@ export class LoginComponent implements OnInit {
     // else
     this.AuthService.login(this.loginForm.value).subscribe(
       (data) => {
+
+        this.tokenService.saveToken(data.token);
+        console.log(data)
         // redirect to the home page
         this.router.navigate(['']);
       },

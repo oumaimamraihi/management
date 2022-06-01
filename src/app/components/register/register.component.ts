@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    let listRoles = ['Client'];
+    let listRoles = ['client'];
 
     this.signinForm = this.fb.group(
       {
@@ -67,7 +67,7 @@ export class RegisterComponent implements OnInit {
         // retrieve the email and the role in an object emailRoleName
         let emailRoleName = {
           email: this.signinForm.get('email').value,
-          name: "Client",
+          roleName: "client",
         };
         // Add the role to user
         this.roleService.addRoleToUser(emailRoleName).subscribe(

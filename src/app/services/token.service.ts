@@ -26,7 +26,7 @@ export class TokenService {
     return this.authService.login(credentials).pipe(
       tap((response: any) => {
         this._isLoggedIn$.next(true);
-        localStorage.setItem(TOKEN_KEY, response.token);
+        sessionStorage.setItem(TOKEN_KEY, response.token);
         this.user = this.getUser(response.token);
       })
     );
@@ -35,7 +35,8 @@ export class TokenService {
   public getToken(): string {
     return sessionStorage.getItem(TOKEN_KEY);
   }
-  private getUser(token): User | null {
+
+  public getUser(token): User | null {
     if (!token) {
       return null;
     }
